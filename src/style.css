@@ -5,13 +5,28 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  --bg: #242424;
+  background-color: var(--bg);
+  --primary: #1a1a1a;
+  --tertiery:#646cff;
+  --secondary: rgb(86, 86, 86);
+  --text: #fff;
+  --toggle: #000;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+:root.main {
+  --bg: #fff;
+  --primary: #f3f4f4;
+  --secondary: #98abb4;
+  --tertiery:#5627ff;
+  --text: #3f3f3f;
+  --toggle: rgb(214, 215, 216);
+  background-color: var(--bg);
 }
 
 a {
@@ -22,6 +37,7 @@ a {
 a:hover {
   color: #535bf2;
 }
+
 
 a {
   font-weight: 500;
@@ -36,42 +52,43 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  /* min-width: 320px; */
+  /* min-height: 100vh; */
 }
 
+.overflow {
+  overflow: hidden;
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-/* .placeholder{
-  width: 55px;
-  height: 60px;
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  border: 1px solid transparent;
-}
 
-.placeholder:hover{
-  border-color: #646cff;
-} */
 button{
   margin: 1rem 0;
 }
+
 button,.placeholder {
   border-radius: 5px;
+  color: var(--text);
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--primary);
   cursor: pointer;
+  margin: 0;
   transition: border-color 0.25s;
 }
 
+button{
+  border: 1px solid var(--secondary);
+}
+
 .placeholder{
-  border: 1px solid rgb(86, 86, 86);
+  color: var(--text);
+  border: 1.5px solid var(--secondary);
   text-transform: uppercase;
   font-size: 2rem;
   padding: .5rem 1rem;
@@ -80,7 +97,7 @@ button,.placeholder {
 }
 
 button:hover,.placeholder:hover {
-  border-color: #646cff;
+  border-color: var(--tertiery);
 }
 button:focus,
 button:focus-visible {
@@ -96,6 +113,30 @@ button:focus-visible {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* Indicator */
+.exist,
+.incorrect,
+.correct {
+  font-weight: bolder;
+}
+.exist {
+  color: rgb(39, 39, 39);
+  font-weight: bolder;
+  background-color: rgb(238, 222, 199);
+}
+
+.incorrect {
+  color: rgb(39, 39, 39);
+  background-color: rgb(253, 50, 50);
+
+  /* border-color: #484343; */
+}
+
+.correct {
+  color: rgb(39, 39, 39);
+  background-color: rgb(56, 242, 115);
 }
 
 @media (prefers-color-scheme: light) {
