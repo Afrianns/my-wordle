@@ -3,25 +3,46 @@ import { ref, defineProps } from "vue";
 
 import GridContent from "./components/GridContent.vue";
 import Nav from "./components/Nav.vue";
-import Key from "./components/Keyboard.vue";
+let emmit = defineEmits(["GameOver"]);
 let keypress = ref("");
+let blocks = ref(false);
+let startGame = ref(false);
+
+blocks.value = false;
+startGame.value = false;
+
+console.log(emmit("GameOver"));
+
+let body = document.querySelector("body");
+
+body.classList.add("overflow");
+
 document.addEventListener("keydown", (e) => {
   keypress.value = e.key;
-  // console.log("hasil dari app.vue", e.key);
 });
+
+let start = () => {
+  blocks.value = true;
+  body.classList.remove("overflow");
+  startGame.value = true;
+};
 
 setInterval(() => {
   keypress.value = "";
 }, 350);
-
-// console.log(keys.keyInput);
 </script>
-
 <template>
-  <!-- <h1>WORDLE MY CREATION</h1> -->
-
+  <div v-bind:class="{ block: blocks }" class="game">
+    <div class="game-menu">
+      <div class="intro">
+        <p>Welcome to;</p>
+        <h1>MI'WORDLE</h1>
+      </div>
+      <button v-on:click="start()">Mulai</button>
+    </div>
+  </div>
   <Nav />
-  <GridContent />
+  <GridContent :start="startGame" />
 </template>
 
 <style scoped>

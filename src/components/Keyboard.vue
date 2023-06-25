@@ -9,6 +9,8 @@ let keys = ref({
   3: ["z", "x", "c", "v", "b", "n", "m", "enter"],
 });
 
+
+
 let indicatorKey = ref([
   { key: "q" },
   { key: "w" },
@@ -55,7 +57,6 @@ watch(
 <template>
   <div class="keyboard">
     <div class="group">
-      <!-- active: props.val == key.key, -->
       <button
         v-for="(key, ind) in keys[1]"
         :class="indicatorKey[ind].indicator"
@@ -118,7 +119,6 @@ svg {
   width: 100%;
   border: 1px solid transparent;
   padding: 0.1em 1em;
-  /* transition: border-color 0.25s; */
 }
 
 .active {

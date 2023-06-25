@@ -1,14 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import { isRef, reactive, ref, toRef, watch } from "vue";
 import Swal from "sweetalert2";
 import Key from "./Keyboard.vue";
+
+let props = defineProps({ start: Boolean });
 
 let result = ref();
 let clicked = ref(false);
 let val = ref(5);
 let sum = ref(6);
 let loading = ref(false);
-let keypress = ref("");
 let vals = ref({
   1: [],
   2: [],
@@ -17,12 +18,24 @@ let vals = ref({
   5: [],
   6: [],
 });
-let keys = ref([]);
+let body = document.querySelector("body");
 let next = ref(1);
 let userIn = ref([]);
 let randomWord = ref([]);
-
 let indicatorPass = ref([]);
+let gameOver = ref();
+let gameOverBanner = ref(false);
+let message = ref("KAMU KALAH");
+
+// start with fetching word
+watch(
+  () => props.start,
+  (a) => {
+    if (a) {
+      getSingleWord();
+    }
+  }
+);
 
 // get random 5 letter 1 word from API
 let getSingleWord = async () => {
@@ -44,8 +57,8 @@ let getSingleWord = async () => {
 
 // checking if input user are not dummy or random latter/word, and show alert with sweet Alert
 let NextTries = async () => {
+  gameOver.value = 0;
   let str = "";
-  let body = document.querySelector("body");
   loading.value = true;
 
   body.classList.add("overflow");
@@ -54,7 +67,6 @@ let NextTries = async () => {
     str += a.letter;
   });
 
-  console.log(vals.value[next.value], str);
   await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${str}`)
     .then((res) => {
       if (!res.ok) throw res.status;
@@ -86,11 +98,18 @@ let NextTries = async () => {
   loading.value = false;
   body.classList.remove("overflow");
   isCorrect();
+  if (gameOver.value == 5) {
+    gameOverBanner.value = true;
+    message.value = "KAMU MENANG";
+    alert("GAME OVER");
+  } else if (next.value > 6) {
+    gameOverBanner.value = true;
+  }
 };
 
 // check if user already filled 5 letters
 let valid = () => {
-  if (next.value < 6 && vals.value[next.value].length === 5) {
+  if (next.value <= 6 && vals.value[next.value].length === 5) {
     return true;
   }
 };
@@ -102,23 +121,43 @@ let isCorrect = () => {
     let indicator;
     if (a == randomWord.value[b]) {
       indicator = "correct";
+      gameOver.value++;
+      indicatorPass.value.push({ indi: indicator, key: a });
+    } else if (notPosition(a)) {
+      indicator = "notplace";
       indicatorPass.value.push({ indi: indicator, key: a });
     } else {
       indicator = "incorrect";
       indicatorPass.value.push({ indi: indicator, key: a });
     }
-    // keys.value.push(a);
     vals.value[next.value - 1][b].col = indicator;
   });
 };
 
+// Check if position letter not in the same as random
+let notPosition = (n) => {
+  let res = false;
+  randomWord.value.forEach((a, b) => {
+    if (a == n && b != 0) {
+      res = true;
+    }
+  });
+
+  return res;
+};
+
 // getting keyboard input from user & push it to object
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keyup", (e) => {
   let regx = /[A-Za-z]/g;
 
   if (e.key == "Backspace" && !loading.value) {
     vals.value[next.value].pop();
   }
+
+  if (e.key == "Enter" && valid()) {
+    NextTries();
+  }
+
   if (
     regx.test(e.key) &&
     e.key.length <= 1 &&
@@ -127,24 +166,38 @@ document.addEventListener("keydown", (e) => {
   ) {
     vals.value[next.value].push({ col: "", letter: e.key });
   }
-  keypress.value = e.key;
 });
 
-setInterval(() => {
-  keypress.value = "";
-}, 350);
+let isOver = (n) => {
+  if (n) {
+    body.classList.add("overflow");
+  }
+  return n;
+};
 </script>
 
 <template>
+  <div v-if="isOver(gameOverBanner)" class="game">
+    <div class="game-menu">
+      <div class="intro">
+        <p>
+          MI'WORDLE <br />
+          <span class="msg">GAME OVER</span>
+        </p>
+        <h1>{{ message }}</h1>
+      </div>
+      <button v-on:click="$emit()">Kembali</button>
+    </div>
+  </div>
   <div class="backdrop" v-if="loading">
-    <!-- <box-icon
+    <box-icon
       class="loading"
       name="loader"
       color="white"
       size="lg"
       animation="spin"
       flip="horizontal"
-    ></box-icon> -->
+    ></box-icon>
   </div>
   <div class="inputLetter">
     <box-icon
@@ -168,15 +221,14 @@ setInterval(() => {
       {{ vals[idx][ind - 1]?.letter }}
     </span>
   </div>
-  <div class="gap">
-    <button v-on:click="NextTries" v-if="valid()">Continues</button>
-    <button v-on:click="getSingleWord">Click me</button>
-  </div>
-
-  <Key :inp="indicatorPass" />
+  <Key class="key" :inp="indicatorPass" />
 </template>
 
 <style scoped>
+.msg {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
 .backdrop {
   display: flex;
   justify-content: center;
@@ -196,10 +248,11 @@ setInterval(() => {
 .inputLetter {
   vertical-align: middle;
   justify-content: center;
-  margin: 0.5rem auto;
+  margin: 0.4rem auto;
   gap: 0.5rem;
   display: flex;
 }
+
 .inputLetter .in {
   text-align: center;
   text-transform: uppercase;
@@ -207,6 +260,10 @@ setInterval(() => {
   height: 3rem;
   font-size: 3rem;
   font-weight: bolder;
+}
+
+.key {
+  margin-top: 4rem;
 }
 
 .title-word {

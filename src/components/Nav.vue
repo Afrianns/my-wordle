@@ -59,6 +59,6 @@ let toggle = () => {
   height: 4rem;
   border-radius: 10px;
   background-color: var(--primary);
-  margin: auto;
+  margin: 0 auto 3rem;
 }
 </style>
