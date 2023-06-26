@@ -69,13 +69,13 @@ let getSingleWord = async () => {
       clicked.value = false;
     });
 };
+
 // blocking the home menu
 let startmenu = () => {
   blocks.value = false;
 };
 </script>
 <template>
-  {{ incr }}
   <div v-bind:class="{ block: blocks }" class="game">
     <div class="game-menu">
       <div class="intro">

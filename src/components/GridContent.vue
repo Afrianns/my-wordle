@@ -39,6 +39,7 @@ watch(
       val.value = props.letterlen;
       gameOverBanner.value = props.clicked;
       randomWord.value = props.letters;
+      console.log(randomWord.value.join(""));
     }
   }
 );
@@ -63,6 +64,7 @@ let NextTries = async () => {
     .then((data) => {
       next.value++;
       userIn.value = data[0]["word"].split("");
+      isCorrect();
     })
     .catch((err) => {
       const Toast = Swal.mixin({
@@ -85,7 +87,6 @@ let NextTries = async () => {
     });
   loading.value = false;
   body.classList.remove("overflow");
-  isCorrect();
 
   if (gameOver.value == val.value) {
     gameOverBanner.value = true;
@@ -186,7 +187,6 @@ let reset = () => {
 };
 
 let load = () => {
-  console.log("cek");
   gameOverBanner.value = false;
 };
 </script>
@@ -258,11 +258,11 @@ let load = () => {
       ></path>
     </svg>
   </div>
-  <div class="inputLetter">
+  <!-- <div class="inputLetter">
     <div class="placeholder exist" v-for="(letter, index) in randomWord">
       {{ letter[0] }}
     </div>
-  </div>
+  </div> -->
   <div class="inputLetter" v-for="idx in sum">
     <span
       class="placeholder"
