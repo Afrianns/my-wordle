@@ -3,10 +3,15 @@ import { isRef, reactive, ref, toRef, watch } from "vue";
 import Swal from "sweetalert2";
 import Key from "./Keyboard.vue";
 
-let props = defineProps({ start: Boolean });
+let props = defineProps(["start", "letterlen", "clicked", "letters"]);
 
-let result = ref();
-let clicked = ref(false);
+import JSConfetti from "js-confetti";
+
+const canvas = document.getElementById("canvas");
+const jsConfetti = new JSConfetti({ canvas });
+
+let randomWord = ref([]);
+
 let val = ref(5);
 let sum = ref(6);
 let loading = ref(false);
@@ -21,39 +26,22 @@ let vals = ref({
 let body = document.querySelector("body");
 let next = ref(1);
 let userIn = ref([]);
-let randomWord = ref([]);
 let indicatorPass = ref([]);
 let gameOver = ref();
 let gameOverBanner = ref(false);
-let message = ref("KAMU KALAH");
+let message = ref("");
 
-// start with fetching word
+// start with fetching word & setting the length of the letters
 watch(
-  () => props.start,
+  () => props.letters,
   (a) => {
     if (a) {
-      getSingleWord();
+      val.value = props.letterlen;
+      gameOverBanner.value = props.clicked;
+      randomWord.value = props.letters;
     }
   }
 );
-
-// get random 5 letter 1 word from API
-let getSingleWord = async () => {
-  clicked.value = true;
-
-  await fetch("https://random-word-api.vercel.app/api?words=1&length=5")
-    .then((res) => res.json())
-    .then((res) => {
-      result.value = res[0].split("");
-      clicked.value = false;
-      randomWord.value = res[0].split("");
-    })
-    .catch((error) => {
-      console.log("ada error!" + error);
-      clicked.value = false;
-      result.value = error;
-    });
-};
 
 // checking if input user are not dummy or random latter/word, and show alert with sweet Alert
 let NextTries = async () => {
@@ -88,28 +76,36 @@ let NextTries = async () => {
         timerProgressBar: true,
       });
 
-      let msg = "Terjadi Error, Mohon Coba lagi!";
-      if (err == 404) msg = "Kata Tidak ditemukan";
+      let msg = "There is an Error, Please Try Again";
+      if (err == 404) msg = "Word Cannot be Found";
       Toast.fire({
         icon: "error",
-        title: `${msg},<br> Status Code ${err}`,
+        title: `${msg},<br> Status ${err}`,
       });
     });
   loading.value = false;
   body.classList.remove("overflow");
   isCorrect();
-  if (gameOver.value == 5) {
+
+  if (gameOver.value == val.value) {
     gameOverBanner.value = true;
-    message.value = "KAMU MENANG";
-    alert("GAME OVER");
+    message.value = "YOU WIN";
+    jsConfetti.addConfetti({
+      // emojis: ["🎈", "🧨", "✨", "🎉", "🎊", "🎇", "🌟", "💖"],
+      confettiRadius: 5,
+      confettiNumber: 100,
+    });
   } else if (next.value > 6) {
+    message.value = `YOU LOOSE "${randomWord.value
+      .join("")
+      .toLocaleUpperCase()}"`;
     gameOverBanner.value = true;
   }
 };
 
 // check if user already filled 5 letters
 let valid = () => {
-  if (next.value <= 6 && vals.value[next.value].length === 5) {
+  if (next.value <= 6 && vals.value[next.value].length === val.value) {
     return true;
   }
 };
@@ -147,7 +143,7 @@ let notPosition = (n) => {
 };
 
 // getting keyboard input from user & push it to object
-document.addEventListener("keyup", (e) => {
+document.addEventListener("keydown", (e) => {
   let regx = /[A-Za-z]/g;
 
   if (e.key == "Backspace" && !loading.value) {
@@ -161,7 +157,7 @@ document.addEventListener("keyup", (e) => {
   if (
     regx.test(e.key) &&
     e.key.length <= 1 &&
-    vals.value[next.value].length <= 4 &&
+    vals.value[next.value].length <= val.value &&
     !loading.value
   ) {
     vals.value[next.value].push({ col: "", letter: e.key });
@@ -174,9 +170,28 @@ let isOver = (n) => {
   }
   return n;
 };
+
+// function reset all game stuff
+let reset = () => {
+  vals.value = {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+  };
+  next.value = 1;
+  indicatorPass.value = [{}];
+};
+
+let load = () => {
+  console.log("cek");
+  gameOverBanner.value = false;
+};
 </script>
 
-<template>
+<template id='canvas'>
   <div v-if="isOver(gameOverBanner)" class="game">
     <div class="game-menu">
       <div class="intro">
@@ -186,29 +201,65 @@ let isOver = (n) => {
         </p>
         <h1>{{ message }}</h1>
       </div>
-      <button v-on:click="$emit()">Kembali</button>
+      <button
+        @click="
+          $emit('startnew');
+          reset();
+        "
+        v-if="!clicked"
+      >
+        PLAY AGAIN
+      </button>
+      <button v-else>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="loading"
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+          style="
+            fill: #fff;
+            transform: rotate(90deg);
+            msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+          "
+        >
+          <path
+            d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"
+          ></path>
+        </svg>
+      </button>
+      <button
+        class="gap"
+        @click="
+          reset();
+          load();
+          $emit('startmenu');
+        "
+      >
+        MENU
+      </button>
     </div>
   </div>
   <div class="backdrop" v-if="loading">
-    <box-icon
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
       class="loading"
-      name="loader"
-      color="white"
-      size="lg"
-      animation="spin"
-      flip="horizontal"
-    ></box-icon>
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      style="
+        fill: #fff;
+        transform: rotate(90deg);
+        msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+      "
+    >
+      <path
+        d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"
+      ></path>
+    </svg>
   </div>
   <div class="inputLetter">
-    <box-icon
-      v-if="clicked"
-      name="loader"
-      color="white"
-      size="lg"
-      animation="spin"
-      flip="horizontal"
-    ></box-icon>
-    <div class="placeholder exist" v-for="(letter, index) in result">
+    <div class="placeholder exist" v-for="(letter, index) in randomWord">
       {{ letter[0] }}
     </div>
   </div>

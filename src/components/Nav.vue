@@ -19,7 +19,7 @@ let toggle = () => {
     <div v-on:click="toggle" class="toggle">
       <span class="btn" v-bind:class="slide"></span>
     </div>
-    <span>USER PROFILE</span>
+    <span>MI'WORDLE</span>
   </div>
 </template>
 <style scoped>

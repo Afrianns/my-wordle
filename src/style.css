@@ -84,6 +84,10 @@ button,.placeholder {
   transition: border-color 0.25s;
 }
 
+.gap{
+  margin: 0 10px;
+}
+
 button{
   border: 1px solid var(--secondary);
 }
@@ -139,6 +143,16 @@ button:focus-visible {
   padding: 1rem;
   border-radius: 15px;
   background-color: rgb(39, 39, 38);
+}
+
+.loading{
+  animation: load infinite 2s linear;
+}
+
+@keyframes load {
+  100%{
+    rotate: 360deg;
+  }
 }
 
 /* Indicator */

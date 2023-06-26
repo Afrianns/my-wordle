@@ -1,15 +1,12 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 let props = defineProps(["inp"]);
-let clicked = ref([]);
 
 let keys = ref({
   1: ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   2: ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
   3: ["z", "x", "c", "v", "b", "n", "m", "enter"],
 });
-
-
 
 let indicatorKey = ref([
   { key: "q" },
@@ -44,10 +41,14 @@ let indicatorKey = ref([
 watch(
   () => props.inp,
   (a) => {
+    if ((a, a.length == 1)) {
+    }
     for (let i = 0; i < indicatorKey.value.length - 1; i++) {
       for (let k of a) {
-        if (k.key == indicatorKey.value[i].key) {
+        if (k.key == indicatorKey.value[i].key && a.length > 1) {
           indicatorKey.value[i].indicator = k.indi;
+        } else if (a.length == 1) {
+          indicatorKey.value[i].indicator = "";
         }
       }
     }
