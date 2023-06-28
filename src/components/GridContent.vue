@@ -284,7 +284,7 @@ let virtualKey = (k) => {
       {{ vals[idx][ind - 1]?.letter }}
     </span>
   </div>
-  <Key class="key" :inp="indicatorPass" @key="virtualKey" />
+  <Key class="key" :idx="next" :inp="indicatorPass" @key="virtualKey" />
 </template>
 
 <style scoped>

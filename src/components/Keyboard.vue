@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-let props = defineProps(["inp"]);
+let props = defineProps(["inp", "idx"]);
 
 let keys = ref({
   1: ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -42,11 +42,13 @@ let indicatorKey = ref([
 watch(
   () => props.inp,
   (a) => {
-    if ((a, a.length == 1)) {
-    }
     for (let i = 0; i < indicatorKey.value.length - 1; i++) {
       for (let k of a) {
-        if (k.key == indicatorKey.value[i].key && a.length > 1) {
+        if (
+          k.key == indicatorKey.value[i].key &&
+          a.length > 1 &&
+          indicatorKey.value[i].indicator != "correct"
+        ) {
           indicatorKey.value[i].indicator = k.indi;
         } else if (a.length == 1) {
           indicatorKey.value[i].indicator = "";
