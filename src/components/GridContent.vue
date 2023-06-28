@@ -225,12 +225,9 @@ let virtualKey = (k) => {
       <button v-else>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="loading"
-          width="30"
-          height="30"
+          class="loading btn-load"
           viewBox="0 0 24 24"
           style="
-            fill: #fff;
             transform: rotate(90deg);
             msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
           "

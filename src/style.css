@@ -160,7 +160,14 @@ button:focus-visible {
   background-color: var(--primary);
 }
 
+.btn-load {
+  width: 20px;
+  height: 20px;
+  fill: var(--text);
+}
+
 .loading{
+  width: 50px;
   animation: load infinite 2s linear;
 }
 
