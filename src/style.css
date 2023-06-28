@@ -156,7 +156,8 @@ button:focus-visible {
   width: 30rem;
   padding: 1rem;
   border-radius: 15px;
-  background-color: rgb(39, 39, 38);
+  color: var(--text);
+  background-color: var(--primary);
 }
 
 .loading{
