@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 import Swal from "sweetalert2";
 import GridContent from "./components/GridContent.vue";
 import Nav from "./components/Nav.vue";
