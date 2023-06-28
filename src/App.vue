@@ -25,6 +25,9 @@ document.addEventListener("keydown", (e) => {
 
 // function for length of the letter input option
 let lettersLen = (n, i) => {
+  if (clicked.value) {
+    return;
+  }
   isActive.value.forEach((_, k) => {
     isActive.value[k] = false;
   });

@@ -145,25 +145,31 @@ let notPosition = (n) => {
 
 // getting keyboard input from user & push it to object
 document.addEventListener("keydown", (e) => {
+  inputKeys(e.key);
+});
+
+function inputKeys(e) {
   let regx = /[A-Za-z]/g;
 
-  if (e.key == "Backspace" && !loading.value) {
+  if (e == "Backspace" && !loading.value) {
     vals.value[next.value].pop();
   }
 
-  if (e.key == "Enter" && valid()) {
+  if (e == "Enter" && valid()) {
     NextTries();
   }
 
   if (
-    regx.test(e.key) &&
-    e.key.length <= 1 &&
-    vals.value[next.value].length <= val.value &&
+    regx.test(e) &&
+    e.length <= 1 &&
+    vals.value[next.value].length <= val.value - 1 &&
     !loading.value
   ) {
-    vals.value[next.value].push({ col: "", letter: e.key });
+    vals.value[next.value].push({ col: "", letter: e });
   }
-});
+
+  // console.log(vals.value);
+}
 
 let isOver = (n) => {
   if (n) {
@@ -188,6 +194,11 @@ let reset = () => {
 
 let load = () => {
   gameOverBanner.value = false;
+};
+
+let virtualKey = (k) => {
+  console.log("the key is", k);
+  inputKeys(k);
 };
 </script>
 
@@ -272,7 +283,7 @@ let load = () => {
       {{ vals[idx][ind - 1]?.letter }}
     </span>
   </div>
-  <Key class="key" :inp="indicatorPass" />
+  <Key class="key" :inp="indicatorPass" @key="virtualKey" />
 </template>
 
 <style scoped>

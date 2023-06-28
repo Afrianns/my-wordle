@@ -6,7 +6,6 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   --bg: #242424;
-  background-color: var(--bg);
   --primary: #1a1a1a;
   --tertiery:#646cff;
   --secondary: rgb(86, 86, 86);
@@ -39,6 +38,14 @@ a:hover {
 }
 
 
+#app .block {
+  display: none;
+}
+
+#app .over {
+  display: flex;
+}
+
 
 a {
   font-weight: 500;
@@ -52,6 +59,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  background-color: var(--bg);
   place-items: center;
   /* min-width: 320px; */
   /* min-height: 100vh; */
@@ -119,6 +127,12 @@ button:focus-visible {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  #app{
+    padding: 0;
+  }
 }
 
 .intro {
@@ -197,10 +211,9 @@ button:focus-visible {
   }
 }
 
-#app .block {
-  display: none;
-}
-
-#app .over {
-  display: flex;
+@media screen and (max-width: 600px) {
+  .game-menu{
+    border-radius: 5px;
+    width: 100%;
+  }
 }

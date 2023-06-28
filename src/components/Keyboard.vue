@@ -5,7 +5,7 @@ let props = defineProps(["inp"]);
 let keys = ref({
   1: ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   2: ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-  3: ["z", "x", "c", "v", "b", "n", "m", "enter"],
+  3: ["del", "z", "x", "c", "v", "b", "n", "m", "enter"],
 });
 
 let indicatorKey = ref([
@@ -28,6 +28,7 @@ let indicatorKey = ref([
   { key: "j" },
   { key: "k" },
   { key: "l" },
+  { key: "Backspace" },
   { key: "z" },
   { key: "x" },
   { key: "c" },
@@ -35,7 +36,7 @@ let indicatorKey = ref([
   { key: "b" },
   { key: "n" },
   { key: "m" },
-  { key: "enter" },
+  { key: "Enter" },
 ]);
 
 watch(
@@ -61,6 +62,7 @@ watch(
       <button
         v-for="(key, ind) in keys[1]"
         :class="indicatorKey[ind].indicator"
+        @click="$emit('key', indicatorKey[ind].key)"
         class="btn-key"
       >
         {{ key }}
@@ -70,39 +72,18 @@ watch(
       <button
         v-for="(key, ind) in keys[2]"
         :class="indicatorKey[ind + 10].indicator"
+        @click="$emit('key', indicatorKey[ind + 10].key)"
         class="btn-key"
       >
         {{ key }}
       </button>
     </div>
     <div class="group">
-      <button class="btn-key">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="ionicon"
-          width="40"
-          viewBox="0 0 512 512"
-        >
-          <path
-            d="M135.19 390.14a28.79 28.79 0 0021.68 9.86h246.26A29 29 0 00432 371.13V140.87A29 29 0 00403.13 112H156.87a28.84 28.84 0 00-21.67 9.84v0L46.33 256l88.86 134.11z"
-            fill="none"
-            stroke="currentColor"
-            stroke-linejoin="round"
-            stroke-width="32"
-          />
-          <path
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="32"
-            d="M336.67 192.33L206.66 322.34M336.67 322.34L206.66 192.33M336.67 192.33L206.66 322.34M336.67 322.34L206.66 192.33"
-          />
-        </svg>
-      </button>
+      <!-- <button class="btn-key" @click="$emit('key', 'Backspace')">DEL</button> -->
       <button
         v-for="(key, ind) in keys[3]"
         :class="indicatorKey[ind + 19].indicator"
+        @click="$emit('key', indicatorKey[ind + 19].key)"
         class="btn-key"
       >
         {{ key }}
@@ -117,9 +98,9 @@ svg {
 .group {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   border: 1px solid transparent;
-  padding: 0.1em 1em;
+  padding: 0.1em 1rem;
+  gap: 5px;
 }
 
 .active {
@@ -131,23 +112,28 @@ svg {
   color: #fff;
 }
 
-.group:nth-child(1) .btn-key {
-  padding: 0.6em 1.55em;
-}
-.group:nth-child(3) .btn-key {
-  padding: 0.2em 1.6em;
-}
-
 .group:nth-child(2) .btn-key {
-  padding: 0.6em 1.8em;
+  padding: 0.6em 1.4em;
 }
-
 .btn-key {
   font-size: 1.3rem;
-  /* margin: .1rem 0 0; */
   text-transform: uppercase;
 }
-.group .btn-key {
-  padding: 0.6em 1.5em;
+
+@media screen and (max-width: 800px) {
+  #app {
+    padding: 0;
+  }
+
+  .group:nth-child(2) .btn-key,
+  .group .btn-key {
+    font-size: 1rem;
+    width: 100%;
+    padding: 1.5em 1em;
+  }
+
+  /* .group {
+    gap: 5px;
+  } */
 }
 </style>
