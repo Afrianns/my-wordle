@@ -1,10 +1,17 @@
 <script setup>
-import { isRef, reactive, ref, toRef, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import Swal from "sweetalert2";
 import Key from "./Keyboard.vue";
 
 let props = defineProps(["start", "letterlen", "clicked", "letters"]);
-
+defineEmits([
+  "letterlen",
+  "clicked",
+  "letters",
+  "start",
+  "startnew",
+  "startmenu",
+]);
 import JSConfetti from "js-confetti";
 
 const canvas = document.getElementById("canvas");
@@ -156,7 +163,7 @@ function inputKeys(e) {
     vals.value[next.value].pop();
   }
 
-  if (e == "Enter" && valid()) {
+  if (e == "Enter" && valid() && !loading.value) {
     NextTries();
   }
 
@@ -198,7 +205,6 @@ let load = () => {
 };
 
 let virtualKey = (k) => {
-  console.log("the key is", k);
   inputKeys(k);
 };
 </script>

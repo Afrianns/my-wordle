@@ -51,7 +51,7 @@ let getSingleWord = async () => {
       clicked.value = false;
     })
     .catch((error) => {
-      console.log("ada error!" + error);
+      console.log("ada error! " + error);
 
       // Sweet Alert Warning
       const Toast = Swal.mixin({
