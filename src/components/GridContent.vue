@@ -69,7 +69,7 @@ let NextTries = async () => {
     .catch((err) => {
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-end",
+        position: "top-end",
         showConfirmButton: false,
         timer: 3000,
         background: "#f27474",
@@ -120,7 +120,7 @@ let isCorrect = () => {
       indicator = "correct";
       gameOver.value++;
       indicatorPass.value.push({ indi: indicator, key: a });
-    } else if (notPosition(a)) {
+    } else if (notPosition(a, b)) {
       indicator = "notplace";
       indicatorPass.value.push({ indi: indicator, key: a });
     } else {
@@ -132,10 +132,11 @@ let isCorrect = () => {
 };
 
 // Check if position letter not in the same as random
-let notPosition = (n) => {
+let notPosition = (n, idx) => {
   let res = false;
+  // console.log("result" + n + "\nnumber" + idx + "\nword " + randomWord.value);
   randomWord.value.forEach((a, b) => {
-    if (a == n && b != 0) {
+    if (a == n && b != idx) {
       res = true;
     }
   });
