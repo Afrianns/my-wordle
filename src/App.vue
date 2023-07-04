@@ -35,6 +35,7 @@ let lettersLen = (n, i) => {
   len.value = n;
 };
 
+
 // get single word with the length of input user from API and pass it to GridContent
 let getSingleWord = async () => {
   clicked.value = true;

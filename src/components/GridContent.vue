@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import Key from "./Keyboard.vue";
 
 let props = defineProps(["start", "letterlen", "clicked", "letters"]);
+
 defineEmits([
   "letterlen",
   "clicked",
@@ -258,12 +259,9 @@ let virtualKey = (k) => {
   <div class="backdrop" v-if="loading">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="loading"
-      width="40"
-      height="40"
+      class="loading btn-load"
       viewBox="0 0 24 24"
       style="
-        fill: #fff;
         transform: rotate(90deg);
         msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
       "
@@ -278,10 +276,11 @@ let virtualKey = (k) => {
       {{ letter[0] }}
     </div>
   </div> -->
-  <div class="inputLetter" v-for="idx in sum">
+  <div class="inputLetter" v-for="idx in sum" v-bind:key="idx.id">
     <span
       class="placeholder"
       v-for="ind in val"
+      v-bind:key="ind.id"
       :class="vals[idx][ind - 1]?.col"
     >
       {{ vals[idx][ind - 1]?.letter }}

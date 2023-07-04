@@ -63,6 +63,7 @@ watch(
     <div class="group">
       <button
         v-for="(key, ind) in keys[1]"
+        v-bind:key="ind"
         :class="indicatorKey[ind].indicator"
         @click="$emit('key', indicatorKey[ind].key)"
         class="btn-key"
@@ -73,6 +74,7 @@ watch(
     <div class="group">
       <button
         v-for="(key, ind) in keys[2]"
+        v-bind:key="ind"
         :class="indicatorKey[ind + 10].indicator"
         @click="$emit('key', indicatorKey[ind + 10].key)"
         class="btn-key"
@@ -84,6 +86,7 @@ watch(
       <!-- <button class="btn-key" @click="$emit('key', 'Backspace')">DEL</button> -->
       <button
         v-for="(key, ind) in keys[3]"
+        v-bind:key="ind"
         :class="indicatorKey[ind + 19].indicator"
         @click="$emit('key', indicatorKey[ind + 19].key)"
         class="btn-key"
