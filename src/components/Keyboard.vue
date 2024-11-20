@@ -61,33 +61,21 @@ watch(
 <template>
   <div class="keyboard">
     <div class="group">
-      <button
-        v-for="(key, ind) in keys[1]"
-        :class="indicatorKey[ind].indicator"
-        @click="$emit('key', indicatorKey[ind].key)"
-        class="btn-key"
-      >
+      <button v-for="(key, ind) in keys[1]" :class="indicatorKey[ind].indicator"
+        @click="$emit('key', indicatorKey[ind].key)" class="btn-key">
         {{ key }}
       </button>
     </div>
     <div class="group">
-      <button
-        v-for="(key, ind) in keys[2]"
-        :class="indicatorKey[ind + 10].indicator"
-        @click="$emit('key', indicatorKey[ind + 10].key)"
-        class="btn-key"
-      >
+      <button v-for="(key, ind) in keys[2]" :class="indicatorKey[ind + 10].indicator"
+        @click="$emit('key', indicatorKey[ind + 10].key)" class="btn-key">
         {{ key }}
       </button>
     </div>
     <div class="group">
       <!-- <button class="btn-key" @click="$emit('key', 'Backspace')">DEL</button> -->
-      <button
-        v-for="(key, ind) in keys[3]"
-        :class="indicatorKey[ind + 19].indicator"
-        @click="$emit('key', indicatorKey[ind + 19].key)"
-        class="btn-key"
-      >
+      <button v-for="(key, ind) in keys[3]" :class="indicatorKey[ind + 19].indicator"
+        @click="$emit('key', indicatorKey[ind + 19].key)" class="btn-key">
         {{ key }}
       </button>
     </div>
@@ -97,11 +85,12 @@ watch(
 svg {
   padding-top: 0.2rem;
 }
+
 .group {
   display: flex;
   justify-content: space-between;
   border: 1px solid transparent;
-  padding: 0.1em 1rem;
+  padding: 0.1em;
   gap: 5px;
 }
 
@@ -117,25 +106,55 @@ svg {
 .group:nth-child(2) .btn-key {
   padding: 0.6em 1.4em;
 }
+
 .btn-key {
-  font-size: 1.3rem;
+  font-size: 1rem;
   text-transform: uppercase;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 700px) {
   #app {
     padding: 0;
   }
 
-  .group:nth-child(2) .btn-key,
-  .group .btn-key {
-    font-size: 1rem;
-    width: 100%;
-    padding: 1.5em 1em;
+  .btn-key {
+    font-size: .8rem;
   }
 
-  /* .group {
-    gap: 5px;
-  } */
+  .keyboard {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:500px) {
+  .keyboard {
+    width: 100%;
+    margin: 0.5rem 0;
+    text-align: center;
+    text-transform: uppercase;
+    /* font-size: 3ch; */
+    width: 100%;
+    font-weight: bolder;
+  }
+
+  .group {
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border: 0;
+  }
+
+  .group:nth-child(2) .btn-key {
+    padding: 0;
+  }
+
+  .btn-key {
+    width: 100%;
+    height: 3rem;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
 }
 </style>

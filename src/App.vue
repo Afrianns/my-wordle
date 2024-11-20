@@ -83,63 +83,31 @@ let startmenu = () => {
     <div class="game-menu">
       <div class="intro">
         <p>Welcome to;</p>
-        <h1>MI'WORDLE</h1>
+        <h1>THE WORDLE GAME</h1>
       </div>
       <div class="letters-wrapper">
         <p>Choose The Length of The Word</p>
         <ul class="letters">
-          <li
-            class="placeholder"
-            :class="{ active: isActive[0] }"
-            @click="lettersLen(4, 0)"
-          >
+          <li class="placeholder" :class="{ active: isActive[0] }" @click="lettersLen(4, 0)">
             4
           </li>
-          <li
-            class="placeholder"
-            :class="{ active: isActive[1] }"
-            @click="lettersLen(5, 1)"
-          >
+          <li class="placeholder" :class="{ active: isActive[1] }" @click="lettersLen(5, 1)">
             5
           </li>
-          <li
-            class="placeholder"
-            :class="{ active: isActive[2] }"
-            @click="lettersLen(6, 2)"
-          >
+          <li class="placeholder" :class="{ active: isActive[2] }" @click="lettersLen(6, 2)">
             6
           </li>
         </ul>
       </div>
       <button v-on:click="getSingleWord()" v-if="!clicked">START</button>
       <button v-else>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="loading btn-load"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          style="
-            transform: rotate(90deg);
-            msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-          "
-        >
-          <path
-            d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"
-          ></path>
-        </svg>
+        <img src="/icons/loading.svg" class="loading btn-load" alt="">
       </button>
     </div>
   </div>
   <Nav />
-  <GridContent
-    @startnew="getSingleWord"
-    @startmenu="startmenu"
-    :letterlen="len"
-    :clicked="clicked"
-    :letters="randomWord"
-    :start="startGame"
-  />
+  <GridContent @startnew="getSingleWord" @startmenu="startmenu" :letterlen="len" :clicked="clicked"
+    :letters="randomWord" :start="startGame" />
 </template>
 
 <style scoped>
@@ -150,9 +118,11 @@ h1 {
 .active {
   border-color: lawngreen;
 }
+
 .letters-wrapper {
   padding: 0 0 1.5rem;
 }
+
 .letters {
   padding: 0;
   width: 100%;
@@ -161,6 +131,7 @@ h1 {
   justify-content: center;
   display: flex;
 }
+
 .logo {
   height: 6em;
   padding: 1.5em;

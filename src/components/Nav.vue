@@ -1,14 +1,38 @@
-
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 let slide = ref("");
 
+onMounted(() => {
+  let darkmode = localStorage.getItem('dark');
+
+  if (darkmode != null) {
+    console.log(darkmode)
+    if (darkmode == 1) {
+      console.log('cke', 1)
+      slide.value = "btn-slide";
+      document.documentElement.classList.add('main');
+    }
+
+    if (darkmode == 0) {
+      console.log('cke', 0)
+      slide.value = "";
+      document.documentElement.classList.remove('main');
+    }
+  } else {
+    localStorage.setItem('dark', 0)
+  }
+})
+
+
 let toggle = () => {
-  document.documentElement.classList.toggle("main");
-  if (!slide.value) {
+  if (localStorage.getItem("dark") == 0) {
     slide.value = "btn-slide";
+    document.documentElement.classList.add('main');
+    localStorage.setItem('dark', 1);
   } else {
     slide.value = "";
+    document.documentElement.classList.remove('main');
+    localStorage.setItem('dark', 0);
   }
 };
 
@@ -19,7 +43,7 @@ let toggle = () => {
     <div v-on:click="toggle" class="toggle">
       <span class="btn" v-bind:class="slide"></span>
     </div>
-    <span>MI'WORDLE</span>
+    <span>THE WORDLE GAME</span>
   </div>
 </template>
 <style scoped>
@@ -54,11 +78,11 @@ let toggle = () => {
   align-items: center;
   /* width: 50%; */
   color: var(--text);
-  width: 30rem;
+  /* width: 100%; */
   padding: 0 1rem;
   height: 4rem;
   border-radius: 10px;
   background-color: var(--primary);
-  margin: 0 auto 3rem;
+  margin: 1rem auto;
 }
 </style>

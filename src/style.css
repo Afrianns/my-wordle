@@ -7,7 +7,7 @@
   color: rgba(255, 255, 255, 0.87);
   --bg: #242424;
   --primary: #1a1a1a;
-  --tertiery:#646cff;
+  --tertiery: #646cff;
   --secondary: rgb(86, 86, 86);
   --text: #fff;
   --toggle: #000;
@@ -22,7 +22,7 @@
   --bg: #fff;
   --primary: #f3f4f4;
   --secondary: #98abb4;
-  --tertiery:#5627ff;
+  --tertiery: #5627ff;
   --text: #3f3f3f;
   --toggle: rgb(214, 215, 216);
   background-color: var(--bg);
@@ -37,6 +37,12 @@ a:hover {
   color: #535bf2;
 }
 
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
 
 #app .block {
   display: none;
@@ -45,7 +51,6 @@ a:hover {
 #app .over {
   display: flex;
 }
-
 
 a {
   font-weight: 500;
@@ -61,8 +66,6 @@ body {
   display: flex;
   background-color: var(--bg);
   place-items: center;
-  /* min-width: 320px; */
-  /* min-height: 100vh; */
 }
 
 .overflow {
@@ -74,11 +77,12 @@ h1 {
   line-height: 1.1;
 }
 
-button{
+button {
   margin: 1rem 0;
 }
 
-button,.placeholder {
+button,
+.placeholder {
   border-radius: 5px;
   color: var(--text);
   border: 1px solid transparent;
@@ -92,25 +96,26 @@ button,.placeholder {
   transition: border-color 0.25s;
 }
 
-.gap{
+.gap {
   margin: 0 10px;
 }
 
-button{
+button {
   border: 1px solid var(--secondary);
 }
 
-.placeholder{
+.placeholder {
   color: var(--text);
   border: 1.5px solid var(--secondary);
   text-transform: uppercase;
   font-size: 2rem;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   width: 30px;
   height: 50px;
 }
 
-button:hover,.placeholder:hover {
+button:hover,
+.placeholder:hover {
   border-color: var(--tertiery);
 }
 button:focus,
@@ -122,15 +127,11 @@ button:focus-visible {
   padding: 2em;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 @media screen and (max-width: 800px) {
-  #app{
+  .keyboard {
+    margin: 2rem auto;
+  }
+  #app {
     padding: 0;
   }
 }
@@ -163,18 +164,6 @@ button:focus-visible {
 .btn-load {
   width: 18px;
   height: 18px;
-  fill: var(--text);
-}
-
-.loading{
-  width: 50px;
-  animation: load infinite 2s linear;
-}
-
-@keyframes load {
-  100%{
-    rotate: 360deg;
-  }
 }
 
 /* Indicator */
@@ -196,7 +185,7 @@ button:focus-visible {
   /* border-color: #484343; */
 }
 
-.notplace{
+.notplace {
   color: rgb(167, 167, 167);
   background-color: rgb(90, 67, 67);
 }
@@ -220,8 +209,15 @@ button:focus-visible {
 }
 
 @media screen and (max-width: 600px) {
-  .game-menu{
-    border-radius: 5px;
+  .game-menu {
+    border-radius: 0;
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #app {
+    width: 100%;
+    margin: 0;
   }
 }

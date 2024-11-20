@@ -214,76 +214,34 @@ let virtualKey = (k) => {
     <div class="game-menu">
       <div class="intro">
         <p>
-          MI'WORDLE <br />
+          THE WORDLE GAME <br />
           <span class="msg">GAME OVER</span>
         </p>
         <h1>{{ message }}</h1>
       </div>
-      <button
-        @click="
-          $emit('startnew');
-          reset();
-        "
-        v-if="!clicked"
-      >
+      <button @click="
+        $emit('startnew');
+      reset();
+      " v-if="!clicked">
         PLAY AGAIN
       </button>
       <button v-else>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="loading btn-load"
-          viewBox="0 0 24 24"
-          style="
-            transform: rotate(90deg);
-            msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-          "
-        >
-          <path
-            d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"
-          ></path>
-        </svg>
+        <img src="/icons/loading.svg" class="loading btn-load" alt="">
       </button>
-      <button
-        class="gap"
-        @click="
-          reset();
-          load();
-          $emit('startmenu');
-        "
-      >
+      <button class="gap" @click="
+        reset();
+      load();
+      $emit('startmenu');
+      ">
         MENU
       </button>
     </div>
   </div>
   <div class="backdrop" v-if="loading">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="loading"
-      width="40"
-      height="40"
-      viewBox="0 0 24 24"
-      style="
-        fill: #fff;
-        transform: rotate(90deg);
-        msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-      "
-    >
-      <path
-        d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"
-      ></path>
-    </svg>
+    <img class="loading" src="/icons/loading.svg" alt="">
   </div>
-  <!-- <div class="inputLetter">
-    <div class="placeholder exist" v-for="(letter, index) in randomWord">
-      {{ letter[0] }}
-    </div>
-  </div> -->
   <div class="inputLetter" v-for="idx in sum">
-    <span
-      class="placeholder"
-      v-for="ind in val"
-      :class="vals[idx][ind - 1]?.col"
-    >
+    <span class="placeholder" v-for="ind in val" :class="vals[idx][ind - 1]?.col">
       {{ vals[idx][ind - 1]?.letter }}
     </span>
   </div>
@@ -291,10 +249,16 @@ let virtualKey = (k) => {
 </template>
 
 <style scoped>
+.loading {
+  width: 3rem;
+  fill: #fff;
+}
+
 .msg {
   font-size: 1.5rem;
   font-weight: 800;
 }
+
 .backdrop {
   display: flex;
   justify-content: center;
@@ -308,7 +272,7 @@ let virtualKey = (k) => {
   background: rgba(26, 25, 25, 0.547);
 }
 
-.gap > * {
+.gap>* {
   margin: 1rem;
 }
 
@@ -323,18 +287,38 @@ let virtualKey = (k) => {
 .inputLetter .in {
   text-align: center;
   text-transform: uppercase;
-  width: 3rem;
-  height: 3rem;
   font-size: 3rem;
   font-weight: bolder;
 }
 
 .key {
-  margin-top: 4rem;
+  margin: 2rem 0;
 }
 
 .title-word {
   font-size: 5rem;
   text-transform: uppercase;
+}
+
+@media screen and (max-width:500px) {
+  .inputLetter {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .inputLetter .in {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 3ch;
+    font-weight: bolder;
+  }
+
+  .placeholder {
+    display: flex;
+    place-content: center;
+    align-items: center;
+    font-size: 2ch;
+    width: 100%;
+  }
 }
 </style>
