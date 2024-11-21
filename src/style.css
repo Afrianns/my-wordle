@@ -195,19 +195,6 @@ button:focus-visible {
   background-color: rgb(56, 242, 115);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
 @media screen and (max-width: 600px) {
   .game-menu {
     border-radius: 0;
